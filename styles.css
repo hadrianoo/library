@@ -54,7 +54,7 @@ input[type=tel] {
     padding: 10px;
     box-sizing: border-box;
     border-radius: 5px;
-    border: 1px solid gray;
+    border: none;
     background-color: #f3f3f3;
     outline: none;
 }
@@ -78,6 +78,7 @@ label {
 fieldset {
     margin-top: 10px;
     border-radius: 5px;
+    border: 1px solid #e5acf8;
 }
 
 .radio>label {
