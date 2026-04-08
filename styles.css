@@ -28,3 +28,39 @@ td:last-of-type {
 tbody>tr:nth-of-type(even) {
     background-color: rgb(237 238 242);
 }
+
+dialog {
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 40px;
+    min-width: 300px;
+}
+
+dialog::backdrop {
+    backdrop-filter: blur(2px);
+}
+
+input[type=text],
+input[type=tel] {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid gray;
+
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+fieldset {
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+
+.radio>label {
+    display: inline-block;
+}
