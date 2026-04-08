@@ -25,13 +25,11 @@ addBookToLibrary("Demon Copperhead", "Barbara Kingsolver", 560, false);
 addBookToLibrary("Hell Difficulty Tutorial: Book One", "Cerim", 618, true);
 addBookToLibrary("Alchemised", "SenLinYu", 1030, false);
 addBookToLibrary("The Compound", "Aisling Rawle", 292, false);
-console.log(myLibrary)
 
-
+const tbody = document.querySelector("tbody");
+const submit = document.querySelector(".submit");
 
 function printLibrary() {
-    const tbody = document.querySelector("tbody");
-
 
     for (const book of myLibrary) {
         const tr = document.createElement("tr");
@@ -55,9 +53,13 @@ function printLibrary() {
         tr.appendChild(pages);
         tr.appendChild(read);
         tbody.appendChild(tr);
-
     }
-
 }
-
 printLibrary();
+
+submit.addEventListener("click", (event) => {
+    console.log(event);
+    event.preventDefault();
+
+
+})

@@ -30,8 +30,15 @@ tbody>tr:nth-of-type(even) {
 }
 
 dialog {
+    --shadow-color: 286deg 36% 53%;
+    --shadow-elevation-medium:
+        0.3px 0.3px 0.5px hsl(var(--shadow-color) / 0.4),
+        1.1px 1.1px 1.8px -0.8px hsl(var(--shadow-color) / 0.4),
+        2.9px 2.8px 4.5px -1.7px hsl(var(--shadow-color) / 0.4),
+        7.1px 6.8px 11.1px -2.5px hsl(var(--shadow-color) / 0.4);
+    box-shadow: var(--shadow-elevation-medium);
     border-radius: 5px;
-    border: 1px solid black;
+    border: none;
     padding: 40px;
     min-width: 300px;
 }
@@ -42,13 +49,26 @@ dialog::backdrop {
 
 input[type=text],
 input[type=tel] {
+    margin-top: 2px;
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
     border-radius: 5px;
     border: 1px solid gray;
-
+    background-color: #f3f3f3;
+    outline: none;
 }
+
+input[type=text]:focus,
+input[type=tel]:focus {
+    border: 1px solid #e5acf8;
+}
+
+input[type=tel]:user-invalid {
+    border: 1px solid red;
+}
+
+
 
 label {
     display: block;
@@ -60,7 +80,56 @@ fieldset {
     border-radius: 5px;
 }
 
-
 .radio>label {
     display: inline-block;
+    top: -6px;
+    left: 4px;
+    position: relative;
+}
+
+input[type='radio']:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #d1d3d1;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+}
+
+input[type='radio']:checked:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #e5acf8;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+}
+
+.submit {
+    border: none;
+    background-color: #36a178;
+    margin: 10px 0;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.submit:hover {
+    background-color: #277557;
+}
+
+p {
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
 }
