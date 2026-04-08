@@ -27,7 +27,7 @@ addBookToLibrary("Alchemised", "SenLinYu", 1030, false);
 addBookToLibrary("The Compound", "Aisling Rawle", 292, false);
 
 const tbody = document.querySelector("tbody");
-const submit = document.querySelector(".submit");
+
 
 function printLibrary() {
 
@@ -57,9 +57,12 @@ function printLibrary() {
 }
 printLibrary();
 
-submit.addEventListener("click", (event) => {
-    console.log(event);
+const button = document.querySelector(".submit-button");
+
+button.addEventListener("click", (event) => {
+    const t = document.querySelector("#title");
     event.preventDefault();
+    console.log(t.value);
 
 
 })
