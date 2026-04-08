@@ -20,5 +20,44 @@ function addBookToLibrary(title, author, pages, read) {
     })
 }
 
-addBookToLibrary("harry potta", "i dont remember", 245, true);
+addBookToLibrary("The Calamitous Bob", "Álex Gilbert", 389, true);
+addBookToLibrary("Demon Copperhead", "Barbara Kingsolver", 560, false);
+addBookToLibrary("Hell Difficulty Tutorial: Book One", "Cerim", 618, true);
+addBookToLibrary("Alchemised", "SenLinYu", 1030, false);
+addBookToLibrary("The Compound", "Aisling Rawle", 292, false);
 console.log(myLibrary)
+
+
+
+function printLibrary() {
+    const tbody = document.querySelector("tbody");
+
+
+    for (const book of myLibrary) {
+        const tr = document.createElement("tr");
+        const identifier = document.createElement("th");
+        const title = document.createElement("td");
+        const author = document.createElement("td");
+        const pages = document.createElement("td");
+        const read = document.createElement("td");
+
+        identifier.scope = "row";
+        for (const id in book) {
+            identifier.textContent = id;
+            title.textContent = book[id].title;
+            author.textContent = book[id].author;
+            pages.textContent = book[id].pages;
+            read.textContent = book[id].read;
+        }
+        tr.appendChild(identifier);
+        tr.appendChild(title);
+        tr.appendChild(author);
+        tr.appendChild(pages);
+        tr.appendChild(read);
+        tbody.appendChild(tr);
+
+    }
+
+}
+
+printLibrary();
