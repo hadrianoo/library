@@ -3,6 +3,7 @@ const myLibrary = [];
 const tbody = document.querySelector("tbody");
 const form = document.querySelector(".add-book-form");
 const dialog = document.querySelector("dialog");
+const removeButton = document.querySelectorAll(".remove-button");
 
 function Book(title, author, pages, read) {
     if (!new.target) {
@@ -16,7 +17,6 @@ function Book(title, author, pages, read) {
 }
 
 function addBookToLibrary(title, author, pages, read) {
-
     const bookId = crypto.randomUUID();
     const book = new Book(title, author, pages, read);
     myLibrary.push({
@@ -25,7 +25,6 @@ function addBookToLibrary(title, author, pages, read) {
 }
 
 function removeFromLibrary(id) {
-
     for (let i = 0; i < myLibrary.length; i++) {
         for (const item in myLibrary[i]) {
             if (item === id) {
@@ -44,10 +43,6 @@ addBookToLibrary("The Compound", "Aisling Rawle", 292, false);
 function printLibrary() {
     let counter = tbody.childNodes.length + 1;
 
-    if (tbody.childNodes.length < myLibrary.length) {
-
-    }
-
     for (const book of myLibrary.slice(tbody.childNodes.length)) {
         const tr = document.createElement("tr");
         const identifier = document.createElement("th");
@@ -61,12 +56,10 @@ function printLibrary() {
         button.textContent = "Remove book";
         button.style.margin = "10px";
 
-
         identifier.scope = "row";
 
         for (const ID in book) {
             tr.id = ID;
-
             identifier.textContent = counter;
             title.textContent = book[ID].title;
             author.textContent = book[ID].author;
@@ -87,7 +80,10 @@ function printLibrary() {
 }
 printLibrary();
 
-
+function removeFromScreen(identifier) {
+    const childToRemove = document.getElementById(identifier);
+    tbody.removeChild(childToRemove);
+}
 
 form.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -103,12 +99,8 @@ form.addEventListener("submit", function (event) {
     document.querySelector(".add-book-form").reset();
 })
 
-const removeButton = document.querySelectorAll(".remove-button");
-
-
 removeButton.forEach(button => button.addEventListener("click", function (event) {
-    // console.log(event.target.dataset.id)
     removeFromLibrary(event.target.dataset.id);
     console.log(myLibrary);
-
+    removeFromScreen(event.target.dataset.id)
 }))
