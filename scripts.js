@@ -3,7 +3,6 @@ const myLibrary = [];
 const tbody = document.querySelector("tbody");
 const form = document.querySelector(".add-book-form");
 const dialog = document.querySelector("dialog");
-const removeButton = document.querySelectorAll(".remove-button");
 
 function Book(title, author, pages, read) {
     if (!new.target) {
@@ -14,6 +13,10 @@ function Book(title, author, pages, read) {
     this.author = author;
     this.pages = pages;
     this.read = read;
+}
+
+Book.prototype.changeRead = function () {
+    return !this.read;
 }
 
 function addBookToLibrary(title, author, pages, read) {
@@ -40,41 +43,52 @@ addBookToLibrary("Hell Difficulty Tutorial: Book One", "Cerim", 618, true);
 addBookToLibrary("Alchemised", "SenLinYu", 1030, false);
 addBookToLibrary("The Compound", "Aisling Rawle", 292, false);
 
+function createButton(cls, text, identifier) {
+    const button = document.createElement("button");
+    button.classList.add(cls);
+    button.textContent = text;
+    button.dataset.id = identifier;
+    button.style.margin = "auto";
+    button.style.width = "100px";
+    return button;
+}
+
 function printLibrary() {
     let counter = tbody.childNodes.length + 1;
+    let identifier = "";
+    let readText = "";
 
     for (const book of myLibrary.slice(tbody.childNodes.length)) {
         const tr = document.createElement("tr");
-        const identifier = document.createElement("th");
+        const nextNum = document.createElement("th");
         const title = document.createElement("td");
         const author = document.createElement("td");
         const pages = document.createElement("td");
         const read = document.createElement("td");
+        const remove = document.createElement("td");
 
-        const button = document.createElement("button");
-        button.classList.add("remove-button");
-        button.textContent = "Remove book";
-        button.style.margin = "10px";
-
-        identifier.scope = "row";
+        nextNum.scope = "row";
+        read.style.textAlign = "center";
 
         for (const ID in book) {
             tr.id = ID;
-            identifier.textContent = counter;
+            identifier = ID;
+            nextNum.textContent = counter;
             title.textContent = book[ID].title;
             author.textContent = book[ID].author;
             pages.textContent = book[ID].pages;
-            read.textContent = book[ID].read;
-            button.dataset.id = ID;
+            readText = book[ID].read ? "Yes" : "No";
             counter += 1;
         }
 
-        tr.appendChild(identifier);
+        tr.appendChild(nextNum);
         tr.appendChild(title);
         tr.appendChild(author);
         tr.appendChild(pages);
+        read.appendChild(createButton("toggle", readText, identifier));
         tr.appendChild(read);
-        tr.appendChild(button);
+        remove.appendChild(createButton("remove-button", "Remove book", identifier));
+        tr.appendChild(remove);
         tbody.appendChild(tr);
     }
 }
@@ -90,8 +104,7 @@ form.addEventListener("submit", function (event) {
     const titleUser = document.querySelector("#title").value;
     const authorUser = document.querySelector("#author").value;
     const pagesUser = document.querySelector("#pages").value;
-    const readUser = document.querySelector("[name='read']:checked").value;
-
+    const readUser = (document.querySelector("[name='read']:checked").value === 'true');
     addBookToLibrary(titleUser, authorUser, pagesUser, readUser);
     printLibrary();
 
@@ -99,8 +112,23 @@ form.addEventListener("submit", function (event) {
     document.querySelector(".add-book-form").reset();
 })
 
-removeButton.forEach(button => button.addEventListener("click", function (event) {
-    removeFromLibrary(event.target.dataset.id);
-    console.log(myLibrary);
-    removeFromScreen(event.target.dataset.id)
-}))
+tbody.addEventListener("click", function (event) {
+    const id = event.target.dataset.id;
+
+    if (event.target.classList.contains("remove-button")) {
+        removeFromLibrary(id);
+        removeFromScreen(id);
+    }
+
+    if (event.target.classList.contains("toggle")) {
+        myLibrary.forEach(obj => {
+            for (const identifier in obj) {
+                if (id === identifier) {
+                    obj[identifier].read = obj[identifier].changeRead();
+                    event.target.textContent = obj[identifier].read ? "Yes" : "No";
+                    console.log(obj[identifier].read)
+                }
+            }
+        })
+    }
+})
