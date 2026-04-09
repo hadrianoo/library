@@ -16,7 +16,7 @@ function Book(title, author, pages, read) {
 }
 
 Book.prototype.changeRead = function () {
-    return !this.read;
+    this.read = !this.read;
 }
 
 function addBookToLibrary(title, author, pages, read) {
@@ -26,22 +26,6 @@ function addBookToLibrary(title, author, pages, read) {
         [bookId]: book
     })
 }
-
-function removeFromLibrary(id) {
-    for (let i = 0; i < myLibrary.length; i++) {
-        for (const item in myLibrary[i]) {
-            if (item === id) {
-                myLibrary.splice(i, 1);
-            }
-        }
-    }
-}
-
-addBookToLibrary("The Calamitous Bob", "Álex Gilbert", 389, true);
-addBookToLibrary("Demon Copperhead", "Barbara Kingsolver", 560, false);
-addBookToLibrary("Hell Difficulty Tutorial: Book One", "Cerim", 618, true);
-addBookToLibrary("Alchemised", "SenLinYu", 1030, false);
-addBookToLibrary("The Compound", "Aisling Rawle", 292, false);
 
 function createButton(cls, text, identifier) {
     const button = document.createElement("button");
@@ -56,47 +40,54 @@ function createButton(cls, text, identifier) {
 function printLibrary() {
     let counter = tbody.childNodes.length + 1;
     let identifier = "";
-    let readText = "";
+    let buttonText = "";
 
     for (const book of myLibrary.slice(tbody.childNodes.length)) {
         const tr = document.createElement("tr");
-        const nextNum = document.createElement("th");
+        const itemNum = document.createElement("th");
         const title = document.createElement("td");
         const author = document.createElement("td");
         const pages = document.createElement("td");
         const read = document.createElement("td");
         const remove = document.createElement("td");
 
-        nextNum.scope = "row";
+        itemNum.scope = "row";
         read.style.textAlign = "center";
 
         for (const ID in book) {
             tr.id = ID;
             identifier = ID;
-            nextNum.textContent = counter;
+            itemNum.textContent = counter;
             title.textContent = book[ID].title;
             author.textContent = book[ID].author;
             pages.textContent = book[ID].pages;
-            readText = book[ID].read ? "Yes" : "No";
+            buttonText = book[ID].read ? "Yes" : "No";
             counter += 1;
         }
 
-        tr.appendChild(nextNum);
+        tr.appendChild(itemNum);
         tr.appendChild(title);
         tr.appendChild(author);
         tr.appendChild(pages);
-        read.appendChild(createButton("toggle", readText, identifier));
+        read.appendChild(createButton("toggle", buttonText, identifier));
         tr.appendChild(read);
         remove.appendChild(createButton("remove-button", "Remove book", identifier));
         tr.appendChild(remove);
         tbody.appendChild(tr);
     }
 }
-printLibrary();
 
-function removeFromScreen(identifier) {
+function removeBook(identifier) {
     const childToRemove = document.getElementById(identifier);
     tbody.removeChild(childToRemove);
+
+    for (let i = 0; i < myLibrary.length; i++) {
+        for (const item in myLibrary[i]) {
+            if (item === identifier) {
+                myLibrary.splice(i, 1);
+            }
+        }
+    }
 }
 
 form.addEventListener("submit", function (event) {
@@ -116,19 +107,26 @@ tbody.addEventListener("click", function (event) {
     const id = event.target.dataset.id;
 
     if (event.target.classList.contains("remove-button")) {
-        removeFromLibrary(id);
-        removeFromScreen(id);
+        removeBook(id);
     }
 
     if (event.target.classList.contains("toggle")) {
         myLibrary.forEach(obj => {
             for (const identifier in obj) {
                 if (id === identifier) {
-                    obj[identifier].read = obj[identifier].changeRead();
+                    obj[identifier].changeRead();
                     event.target.textContent = obj[identifier].read ? "Yes" : "No";
-                    console.log(obj[identifier].read)
                 }
             }
         })
     }
 })
+
+
+addBookToLibrary("The Calamitous Bob", "Álex Gilbert", 389, true);
+addBookToLibrary("Demon Copperhead", "Barbara Kingsolver", 560, false);
+addBookToLibrary("Hell Difficulty Tutorial: Book One", "Cerim", 618, true);
+addBookToLibrary("Alchemised", "SenLinYu", 1030, false);
+addBookToLibrary("The Compound", "Aisling Rawle", 292, false);
+
+printLibrary();
