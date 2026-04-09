@@ -24,6 +24,17 @@ function addBookToLibrary(title, author, pages, read) {
     })
 }
 
+function removeFromLibrary(id) {
+
+    for (let i = 0; i < myLibrary.length; i++) {
+        for (const item in myLibrary[i]) {
+            if (item === id) {
+                myLibrary.splice(i, 1);
+            }
+        }
+    }
+}
+
 addBookToLibrary("The Calamitous Bob", "Álex Gilbert", 389, true);
 addBookToLibrary("Demon Copperhead", "Barbara Kingsolver", 560, false);
 addBookToLibrary("Hell Difficulty Tutorial: Book One", "Cerim", 618, true);
@@ -31,6 +42,11 @@ addBookToLibrary("Alchemised", "SenLinYu", 1030, false);
 addBookToLibrary("The Compound", "Aisling Rawle", 292, false);
 
 function printLibrary() {
+    let counter = tbody.childNodes.length + 1;
+
+    if (tbody.childNodes.length < myLibrary.length) {
+
+    }
 
     for (const book of myLibrary.slice(tbody.childNodes.length)) {
         const tr = document.createElement("tr");
@@ -40,23 +56,37 @@ function printLibrary() {
         const pages = document.createElement("td");
         const read = document.createElement("td");
 
+        const button = document.createElement("button");
+        button.classList.add("remove-button");
+        button.textContent = "Remove book";
+        button.style.margin = "10px";
+
+
         identifier.scope = "row";
-        for (const id in book) {
-            identifier.textContent = id;
-            title.textContent = book[id].title;
-            author.textContent = book[id].author;
-            pages.textContent = book[id].pages;
-            read.textContent = book[id].read;
+
+        for (const ID in book) {
+            tr.id = ID;
+
+            identifier.textContent = counter;
+            title.textContent = book[ID].title;
+            author.textContent = book[ID].author;
+            pages.textContent = book[ID].pages;
+            read.textContent = book[ID].read;
+            button.dataset.id = ID;
+            counter += 1;
         }
+
         tr.appendChild(identifier);
         tr.appendChild(title);
         tr.appendChild(author);
         tr.appendChild(pages);
         tr.appendChild(read);
+        tr.appendChild(button);
         tbody.appendChild(tr);
     }
 }
 printLibrary();
+
 
 
 form.addEventListener("submit", function (event) {
@@ -69,8 +99,16 @@ form.addEventListener("submit", function (event) {
     addBookToLibrary(titleUser, authorUser, pagesUser, readUser);
     printLibrary();
 
-
     dialog.close();
     document.querySelector(".add-book-form").reset();
 })
 
+const removeButton = document.querySelectorAll(".remove-button");
+
+
+removeButton.forEach(button => button.addEventListener("click", function (event) {
+    // console.log(event.target.dataset.id)
+    removeFromLibrary(event.target.dataset.id);
+    console.log(myLibrary);
+
+}))
