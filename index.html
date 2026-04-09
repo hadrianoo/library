@@ -23,8 +23,7 @@
                 <th scope="col">Did you read it?</th>
             </tr>
         </thead>
-        <tbody>
-        </tbody>
+        <tbody></tbody>
     </table>
     <button command="show-modal" commandfor="add-book">New Book</button>
     <dialog id="add-book">
@@ -35,11 +34,11 @@
             </div>
             <div>
                 <label for="author">Author</label>
-                <input type="text" name="author" pages id="author" required placeholder="J.R.R. Tolkien">
+                <input type="text" name="author" id="author" required placeholder="J.R.R. Tolkien">
             </div>
             <div>
                 <label for="pages">Pages</label>
-                <input type="tel" name="pages" id="pages" required pattern="[0-9]{1,4}" placeholder="432">
+                <input type="tel" name="pages" id="pages" required pattern="[0-9]{2,4}" placeholder="432">
             </div>
             <fieldset class="radio">
                 <legend>Did you read it?</legend>
@@ -48,7 +47,7 @@
                 <label for="read-false">No</label>
                 <input type="radio" name="read" id="read-false" value="false" required>
             </fieldset>
-            <input class="submit-button" type="submit" value="Add Book">
+            <button class="submit-button" type="submit">Add Book</button>
         </form>
         <p>All fields are required.</p>
     </dialog>

@@ -1,5 +1,9 @@
 const myLibrary = [];
 
+const tbody = document.querySelector("tbody");
+const form = document.querySelector(".add-book-form");
+const dialog = document.querySelector("dialog");
+
 function Book(title, author, pages, read) {
     if (!new.target) {
         throw Error("You must use 'new' operator to call the constructor");
@@ -26,12 +30,9 @@ addBookToLibrary("Hell Difficulty Tutorial: Book One", "Cerim", 618, true);
 addBookToLibrary("Alchemised", "SenLinYu", 1030, false);
 addBookToLibrary("The Compound", "Aisling Rawle", 292, false);
 
-const tbody = document.querySelector("tbody");
-
-
 function printLibrary() {
 
-    for (const book of myLibrary) {
+    for (const book of myLibrary.slice(tbody.childNodes.length)) {
         const tr = document.createElement("tr");
         const identifier = document.createElement("th");
         const title = document.createElement("td");
@@ -57,12 +58,19 @@ function printLibrary() {
 }
 printLibrary();
 
-const button = document.querySelector(".submit-button");
 
-button.addEventListener("click", (event) => {
-    const t = document.querySelector("#title");
+form.addEventListener("submit", function (event) {
     event.preventDefault();
-    console.log(t.value);
+    const titleUser = document.querySelector("#title").value;
+    const authorUser = document.querySelector("#author").value;
+    const pagesUser = document.querySelector("#pages").value;
+    const readUser = document.querySelector("[name='read']:checked").value;
+
+    addBookToLibrary(titleUser, authorUser, pagesUser, readUser);
+    printLibrary();
 
 
+    dialog.close();
+    document.querySelector(".add-book-form").reset();
 })
+
