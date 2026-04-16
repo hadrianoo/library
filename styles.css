@@ -139,3 +139,8 @@ p {
     margin: 0;
     padding: 0;
 }
+
+.toggle,
+.remove-button {
+    width: 100%;
+}
