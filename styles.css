@@ -116,6 +116,11 @@ input[type='radio']:checked:after {
     border: 2px solid white;
 }
 
+button {
+    margin: auto;
+    width: 100px;
+}
+
 .submit-button {
     border: none;
     background-color: #36a178;
