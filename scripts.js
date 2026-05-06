@@ -53,15 +53,36 @@ class DOM {
     });
 
     this.form.addEventListener("submit", (event) => {
-      this.validateAuthor();
       event.preventDefault();
-
       const titleUser = document.querySelector("#title").value;
-      const authorUser = document.querySelector("#author").value;
+      const authorUser = document.querySelector("#author");
       const pagesUser = document.querySelector("#pages").value;
-      const readUser =
-        document.querySelector("[name='read']:checked").value === "true";
-      lib.addBookToLibrary(titleUser, authorUser, pagesUser, readUser);
+      const readUser = document.querySelector("[name='read']");
+      let readUserValue = "";
+
+      if (document.querySelector("[name='read']:checked")) {
+        readUserValue =
+          document.querySelector("[name='read']:checked").value === "true";
+        readUser.setCustomValidity("");
+      } else {
+        readUser.setCustomValidity("So did you read it?");
+        readUser.reportValidity();
+        return;
+      }
+      if (!authorUser.value.trim()) {
+        authorUser.setCustomValidity("Author name expected :)");
+        authorUser.reportValidity();
+        return;
+      } else {
+        authorUser.setCustomValidity("");
+      }
+
+      lib.addBookToLibrary(
+        titleUser,
+        authorUser.value,
+        pagesUser,
+        readUserValue,
+      );
 
       this.printLibrary();
       this.dialog.close();

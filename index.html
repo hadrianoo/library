@@ -27,7 +27,7 @@
     </table>
     <button command="show-modal" commandfor="add-book">New Book</button>
     <dialog id="add-book">
-      <form class="add-book-form">
+      <form class="add-book-form" novalidate>
         <div>
           <label for="title">Title</label>
           <input
@@ -44,8 +44,8 @@
             type="text"
             name="author"
             id="author"
-            required
             placeholder="J.R.R. Tolkien"
+            required
           />
         </div>
         <div>
